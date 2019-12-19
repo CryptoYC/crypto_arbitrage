@@ -55,23 +55,33 @@ class BinanceAction(object):
             tickers.append(ticker)
         return tickers
 
-    def check_depth(self, symbol, side, quantity):
+    def compute_ave_price(self, symbol, side, quantity):
         """
-                Check the depth if I buy/sell
-                :param symbol:
-                :param side:
-                :param quantity:
-                :return:
-                """
-        # Get the depth info
+        Compute the ave price according to quantity and price if I buy/sell
+        :param symbol:
+        :param side:
+        :param quantity:
+        :return:(ave_price)
+        """
         depth = self.client.get_order_book(symbol=symbol)
         order_list = []
         if side == SIDE_BUY:
             order_list = depth["asks"]
         elif side == SIDE_SELL:
             order_list = depth["bids"]
-            # TODO Check the depth if I buy/sell
-            # TODO Recalculate the arbitrages according to asks and bids because buyer check the asks but seller check the bids
+        if len(order_list) > 0:
+            ave_price = 0
+            sum_quantity = 0
+            sum_vol = 0
+            for i in range(len(order_list)):
+                order = order_list[i]
+                sum_quantity = sum_quantity + float(order[1])
+                sum_vol = sum_vol + float(order[1]) * float(order[0])
+                if i < len(order_list):
+                    if sum_quantity >= quantity:
+                        ave_price = sum_vol / sum_quantity
+                        break
+            return ave_price
 
     def check_balance(self, symbol, side):
         """

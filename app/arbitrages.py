@@ -5,7 +5,7 @@ def triangular_arbitrage(tickers, target_asset, fee, target_rate=0.05):
     :param target_asset: USDT
     :param fee:
     :param target_rate: 0.05
-    :return: {"ETHUSDT","ETHBTC","BTCUSDT"}
+    :return:
     """
 
     arbitrages = []
@@ -25,10 +25,9 @@ def triangular_arbitrage(tickers, target_asset, fee, target_rate=0.05):
                 p1 = first_ticker.price
                 p2 = second_ticker.price
                 p3 = third_ticker.price
-                #
+                # r=1-p1*(1 - fee) * (1 - fee) * (1 - fee) / (p2 * p3)
                 rate = 1 - p1 * (1 - fee) * (1 - fee) * (1 - fee) / (p2 * p3)
                 if rate > target_rate:
-                    arbitrage = {"process": [first_ticker.symbol, second_ticker.symbol, third_ticker.symbol],
-                                 "rate": rate}
-                    arbitrages.append(arbitrage)
+                    print("process : " + first_ticker.symbol + "->" + second_ticker.symbol + "->" + third_ticker.symbol + " @ " + rate)
+                    # TODO how much and how many when 1st and 2st buy but 3st sell
     return arbitrages

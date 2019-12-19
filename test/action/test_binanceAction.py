@@ -12,6 +12,10 @@ class TestBinanceAction(TestCase):
         action = BinanceAction()
         print(action.get_market())
 
+    def test_compute_ave_price(self):
+        action = BinanceAction()
+        print(action.compute_ave_price("BTCUSDT", SIDE_BUY, 1))
+
     def test_create_order(self):
         action = BinanceAction()
         print(action.create_order("BTCUSDT", SIDE_BUY, 1))

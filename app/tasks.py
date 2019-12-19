@@ -19,10 +19,8 @@ def triangular_arbitrage_task():
         print("Start of arbitrage :" + arbitrage)
         process = arbitrage["process"]
         for symbol in process:
-            # TODO 1st and 2st buy but 3st sell
             # Get the quantity
             quantity = action.check_balance(symbol, SIDE_BUY)
-            # Get the depth
             # Create the order
             response = action.create_test_order(symbol, SIDE_BUY, quantity)
             if response is not None:
