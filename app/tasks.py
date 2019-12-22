@@ -14,11 +14,11 @@ def triangular_arbitrage_task():
     # Get the arbitrages
     action = BinanceAction()
     tickers = action.get_market()
-    arbitrages = triangular_arbitrage(tickers, BinanceConfig.fee, 0.01)
+    # [["BATUSDT","BATBTC","BTCUSDT"]]
+    arbitrages = triangular_arbitrage(tickers, BinanceConfig.fee, 0.01,0.05)
     for arbitrage in arbitrages:
         print("Start of arbitrage :" + arbitrage)
-        process = arbitrage["process"]
-        for symbol in process:
+        for symbol in arbitrage:
             # Get the quantity
             quantity = action.check_balance(symbol, SIDE_BUY)
             # Create the order

@@ -55,13 +55,13 @@ class BinanceAction(object):
             tickers.append(ticker)
         return tickers
 
-    def compute_ave_price(self, symbol, side, quantity):
+    def get_depth_price(self, symbol, side, quantity):
         """
         Compute the ave price according to quantity and price if I buy/sell
         :param symbol:
         :param side:
         :param quantity:
-        :return:(ave_price)
+        :return:6371.1
         """
         depth = self.client.get_order_book(symbol=symbol)
         order_list = []
@@ -79,9 +79,9 @@ class BinanceAction(object):
                 sum_vol = sum_vol + float(order[1]) * float(order[0])
                 if i < len(order_list):
                     if sum_quantity >= quantity:
-                        ave_price = sum_vol / sum_quantity
+                        depth_price = sum_vol / sum_quantity
                         break
-            return ave_price
+            return depth_price
 
     def check_balance(self, symbol, side):
         """
@@ -89,7 +89,7 @@ class BinanceAction(object):
 
         :param side:
         :type symbol
-        :return:
+        :return: 1
         """
         balance = 0.0
         quote_asset, base_asset = self.get_asset(symbol)
@@ -108,7 +108,6 @@ class BinanceAction(object):
         Create a test MARKET Order
         :param symbol:
         :param side:
-        :param price:
         :param quantity:
         """
         self.client.create_test_order(symbol=symbol, side=side, type=ORDER_TYPE_MARKET, quantity=quantity)
