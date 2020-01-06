@@ -55,6 +55,22 @@ class BinanceAction(object):
             tickers.append(ticker)
         return tickers
 
+    def get_price(self, symbol, side):
+        """
+        Compute the price if I buy/sell
+        :param symbol:
+        :param side:
+        :return:6371.1
+        """
+        depth = self.client.get_order_book(symbol=symbol)
+        if len(depth["asks"]) > 0 or len(depth["bids"]) > 0:
+            order_list = []
+            if side == SIDE_BUY:
+                order_list = depth["asks"]
+            elif side == SIDE_SELL:
+                order_list = depth["bids"]
+            return order_list[0][0]
+
     def get_depth_price(self, symbol, side, quantity):
         """
         Compute the ave price according to quantity and price if I buy/sell

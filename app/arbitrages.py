@@ -5,7 +5,7 @@ def triangular_arbitrage(tickers, target_asset, fee, target_rate):
     :param target_asset: USDT
     :param fee:
     :param target_rate: 0.05
-    :return:[["BATUSDT","BATBTC","BTCUSDT"]]
+    :return:[[{"name":BTCUSDT,"base_asset":"USDT","quote_asset":"BTC","price":8422.64,"usdt_price":8422.64}]]
     """
 
     arbitrages = []
@@ -28,6 +28,6 @@ def triangular_arbitrage(tickers, target_asset, fee, target_rate):
                 # r=1-p1*(1 - fee) * (1 - fee) * (1 - fee) / (p2 * p3)
                 rate = 1 - p1 * (1 - fee) * (1 - fee) * (1 - fee) / (p2 * p3)
                 if rate > target_rate:
-                    print("process : " + first_ticker.symbol + "->" + second_ticker.symbol + "->" + third_ticker.symbol + " @ " + rate)
-                    arbitrages.append([first_ticker.symbol, second_ticker.symbol, third_ticker.symbol])
+                    print("process : " + first_ticker.symbol + "->" + second_ticker.symbol + "->" + third_ticker.symbol + " @ " + str(rate))
+                    arbitrages.append([first_ticker, second_ticker, third_ticker])
     return arbitrages
